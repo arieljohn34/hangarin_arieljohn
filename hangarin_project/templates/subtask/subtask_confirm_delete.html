@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete SubTask{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <div class="card-body">
+                <h5 class="card-title">Are you sure?</h5>
+                <p class="card-text">Do you really want to delete the subtask "{{ object.title }}"?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, delete</button>
+                    <a href="{% url 'tasks:subtask_list' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

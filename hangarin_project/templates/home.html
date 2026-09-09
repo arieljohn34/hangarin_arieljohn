@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - PSUSphere{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="display-4">Welcome to Hangarin</h1>
+        <p class="lead">Manage your tasks, categories, priorities, notes, and subtasks.</p>
+        <hr>
+        <div class="row text-center">
+            <div class="col-md-2"><a href="{% url 'tasks:task_list' %}" class="btn btn-primary btn-block">Tasks</a></div>
+            <div class="col-md-2"><a href="{% url 'tasks:category_list' %}" class="btn btn-secondary btn-block">Categories</a></div>
+            <div class="col-md-2"><a href="{% url 'tasks:priority_list' %}" class="btn btn-success btn-block">Priorities</a></div>
+            <div class="col-md-2"><a href="{% url 'tasks:note_list' %}" class="btn btn-info btn-block">Notes</a></div>
+            <div class="col-md-2"><a href="{% url 'tasks:subtask_list' %}" class="btn btn-warning btn-block">SubTasks</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

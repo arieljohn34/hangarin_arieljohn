@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}SubTask List{% endblock %}
+
+{% block content %}
+<h1>SubTasks</h1>
+<a href="{% url 'tasks:subtask_create' %}" class="btn btn-success mb-3">Add New SubTask</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Parent Task</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subtask in subtasks %}
+        <tr>
+            <td>{{ subtask.parent_task.title }}</td>
+            <td>{{ subtask.title }}</td>
+            <td>{{ subtask.description|truncatechars:30 }}</td>
+            <td>{{ subtask.status }}</td>
+            <td>
+                <a href="{% url 'tasks:subtask_update' subtask.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'tasks:subtask_delete' subtask.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">No subtasks yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
