@@ -1,0 +1,132 @@
+/* =========================================================
+ * Table Action Buttons (Spread horizontally)
+ * ========================================================= */
+.action-buttons {
+    display: flex !important;
+    flex-direction: row !important;      /* Force side-by-side on desktop */
+    flex-wrap: nowrap !important;         /* Never wrap to a new line */
+    gap: 0.25in !important;               /* 0.25 inch space between buttons */
+    justify-content: center;
+    align-items: center;
+}
+
+.action-buttons .btn {
+    flex: 0 0 auto !important;            /* Don't stretch or shrink */
+    white-space: nowrap !important;       /* Keep text on one line */
+    margin: 0 !important;
+    text-align: center;
+}
+
+/* Give the Actions column enough room so buttons don't get squeezed */
+.table td:last-child,
+.table th:last-child {
+    min-width: 170px;
+}
+
+/* =========================================================
+ * Global Styles - Emoji Sidebar
+ * ========================================================= */
+
+.modules-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100%;
+}
+
+.module-link {
+    display: flex !important;
+    align-items: center;
+    background: #f8f9fa !important; 
+    border-radius: 50px !important;
+    padding: 15px 25px !important;
+    text-decoration: none !important; 
+    color: #333333 !important; 
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid #eee;
+    width: 100%;
+    box-sizing: border-box;
+    
+    /* CHANGED TO 0.5 INCHES */
+    margin-bottom: 0.5in !important; 
+}
+
+.module-link:last-child {
+    margin-bottom: 0 !important;
+}
+
+.module-icon {
+    margin-right: 15px;
+    font-size: 20px; 
+    line-height: 1;
+}
+
+/* =========================================================
+ * Responsive Adjustments for Screens <= 960px
+ * ========================================================= */
+
+@media screen and (max-width: 960px) {
+    /* --- General Layout Adjustments --- */
+    .main-panel { width: 100%; }
+    .main-panel .content { padding: 20px 10px; margin-top: 55px; }
+    .row-card-no-pd [class*=col-] .card:after { width: 0px !important; }
+    .card { margin-bottom: 20px; }
+    .card .card-body { padding: 15px 10px; }
+    .card-stats .icon-big { font-size: 2.5em; min-height: 50px; }
+    .field.item.form-group { padding: 10px 0; }
+    .form-group { margin-bottom: 15px; padding: 0 5px; }
+    .form-control, select.form-control { font-size: 16px; height: auto; padding: 10px 12px; }
+    .update-pro button, .form-group button[type="submit"], .btn-block-mobile { width: 100%; margin-top: 10px; padding: 12px; }
+    .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 0; }
+    .table td, .table th { white-space: nowrap; font-size: 13px; padding: 0.5rem !important; }
+    .table .btn-sm, .table .btn-xs { padding: 5px 8px; font-size: 11px; margin-bottom: 2px; display: inline-block; }
+    .card-footer.px-0 { flex-direction: column !important; align-items: center !important; }
+    .pagination { flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
+    .pagination .page-item { margin-bottom: 5px; }
+    .pagination .page-link { padding: 6px 12px; font-size: 13px; }
+    .fw-normal.small { margin-top: 10px !important; text-align: center; width: 100%; display: block; }
+    .navbar-header { background: #ffffff; border-bottom: 1px solid #eee; }
+    .nav-search { width: 100%; margin-right: 0 !important; margin-top: 10px; margin-bottom: 10px; }
+    .dropdown-menu { max-width: 90vw; left: 5vw !important; right: auto !important; }
+
+    /* --- Form & Action Buttons (Stacked with 0.75in spacing) --- */
+    form .btn,
+    .page-actions .btn,
+    .mobile-stack-btn {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 0.25in !important;
+    }
+
+    /* Remove extra space after the last button in forms */
+    form .btn:last-child,
+    .page-actions .btn:last-child,
+    .mobile-stack-btn:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* Add New Task button on task list */
+    a.btn-success.mb-3 {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 0.25in !important;
+    }
+
+         /* --- Table Action Buttons (Mobile tweaks) --- */
+    .action-buttons {
+        flex-direction: column !important;
+        width: 100%;
+        gap: 0 !important;   /* Reset the 0.25in gap from desktop */
+    }
+    
+    /* Force the Edit button to push the Delete button down */
+    .action-buttons .btn:first-child {
+        margin-bottom: 0.25in !important;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+}

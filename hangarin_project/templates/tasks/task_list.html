@@ -4,36 +4,44 @@
 
 {% block content %}
 <h1>Tasks</h1>
-<a href="{% url 'tasks:task_create' %}" class="btn btn-success mb-3">Add New Task</a>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Deadline</th>
-            <th>Status</th>
-            <th>Category</th>
-            <th>Priority</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.title }}</td>
-            <td>{{ task.description|truncatechars:30 }}</td>
-            <td>{{ task.deadline }}</td>
-            <td>{{ task.status }}</td>
-            <td>{{ task.category.name }}</td>
-            <td>{{ task.priority.name }}</td>
-            <td>
-                <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="7">No tasks yet.</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+<a href="{% url 'tasks:task_create' %}" class="btn btn-success mb-3 mobile-stack-btn">
+    Add New Task
+</a>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description|truncatechars:30 }}</td>
+                <td>{{ task.deadline }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.category.name }}</td>
+                <td>{{ task.priority.name }}</td>
+                <td>
+                    <div class="action-buttons">
+                        <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'tasks:task_delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7">No tasks yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

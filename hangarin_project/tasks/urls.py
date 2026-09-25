@@ -1,12 +1,15 @@
 # tasks/urls.py
 from django.urls import path
 from . import views
+from django.views.generic import RedirectView
+
 
 app_name = 'tasks'
 
 urlpatterns = [
-    # Home
-    path('', views.HomeView.as_view(), name='home'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('home/', views.HomeView.as_view(), name='home'),
+    path('', RedirectView.as_view(pattern_name='tasks:dashboard', permanent=False)),
 
     # Task CRUD
     path('tasks/', views.TaskListView.as_view(), name='task_list'),

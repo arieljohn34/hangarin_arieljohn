@@ -2,13 +2,17 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Task, Category, Priority, Note, SubTask
+from django.shortcuts import render
 
+def dashboard(request):
+    return render(request, 'dashboard.html')
 # ---------- Home ----------
 class HomeView(TemplateView):
     template_name = 'home.html'
     def get(self, request, *args, **kwargs):
-        print(f"🔍 HomeView: template_name = {self.template_name}")
+        print(f"HomeView: template_name = {self.template_name}")
         return super().get(request, *args, **kwargs)
+    
 
 # ---------- Task ----------
 class TaskListView(ListView):

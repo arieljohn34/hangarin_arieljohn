@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Hangarin{% endblock %}
+
+{% block extra_head %}
+    <!-- Cache-buster bumped to v=3 -->
+    <link rel="stylesheet" href="{% static 'css/ready.css' %}?v=3">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=3">
+    
+    <!-- INLINE CSS TO FORCE THE STYLES -->
+    <style>
+        .modules-sidebar {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100%;
+        }
+        .module-link {
+            display: flex !important;
+            align-items: center;
+            background: #f8f9fa !important; 
+            border-radius: 50px !important;
+            padding: 15px 25px !important;
+            text-decoration: none !important; 
+            color: #333333 !important; 
+            font-weight: 600;
+            font-size: 16px;
+            border: 1px solid #eee;
+            width: 100%;
+            box-sizing: border-box;
+            
+            /* CHANGED TO 0.5 INCHES */
+            margin-bottom: 0.5in !important; 
+        }
+        .module-link:last-child {
+            margin-bottom: 0 !important;
+        }
+        .module-icon {
+            margin-right: 15px;
+            font-size: 20px; 
+            line-height: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-container" class="col-md-3">
+        <h4 class="page-title mb-3">Modules</h4>
+        
+        <div class="modules-sidebar">
+            <a href="{% url 'tasks:task_list' %}" class="module-link">
+                <span class="module-icon">📋</span>
+                <span>Tasks</span>
+            </a>
+
+            <a href="{% url 'tasks:category_list' %}" class="module-link">
+                <span class="module-icon">📂</span>
+                <span>Categories</span>
+            </a>
+
+            <a href="{% url 'tasks:priority_list' %}" class="module-link">
+                <span class="module-icon">🚩</span>
+                <span>Priorities</span>
+            </a>
+
+            <a href="{% url 'tasks:note_list' %}" class="module-link">
+                <span class="module-icon">📝</span>
+                <span>Notes</span>
+            </a>
+
+            <a href="{% url 'tasks:subtask_list' %}" class="module-link">
+                <span class="module-icon">🔄</span>
+                <span>Subtasks</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div id="main-container" class="col-md-9">
+        <button id="toggleSidebar" class="btn btn-primary btn-sm mb-4">
+            ☰ Toggle Sidebar
+        </button>
+
+        <h4 class="page-title mb-3">Overview</h4>
+        
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-primary">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5"><div class="icon-big text-center"><i class="la la-tasks"></i></div></div>
+                            <div class="col-7 d-flex align-items-center">
+                                <div class="numbers"><p class="card-category">Total Tasks</p><h4 class="card-title">12</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-success">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5"><div class="icon-big text-center"><i class="la la-check-circle"></i></div></div>
+                            <div class="col-7 d-flex align-items-center">
+                                <div class="numbers"><p class="card-category">Completed</p><h4 class="card-title">5</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-warning">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5"><div class="icon-big text-center"><i class="la la-clock-o"></i></div></div>
+                            <div class="col-7 d-flex align-items-center">
+                                <div class="numbers"><p class="card-category">Pending</p><h4 class="card-title">7</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-danger">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5"><div class="icon-big text-center"><i class="la la-exclamation-triangle"></i></div></div>
+                            <div class="col-7 d-flex align-items-center">
+                                <div class="numbers"><p class="card-category">Overdue</p><h4 class="card-title">2</h4></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="card card-tasks">
+                    <div class="card-header"><h4 class="card-title">Recent Tasks</h4></div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr><th>Task Name</th><th>Category</th><th>Priority</th><th>Status</th><th class="text-right">Actions</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Finish project documentation</td><td>Work</td>
+                                        <td><span class="badge badge-danger">High</span></td>
+                                        <td><span class="badge badge-warning">In Progress</span></td>
+                                        <td class="text-right"><button class="btn btn-sm btn-primary btn-round">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Buy groceries</td><td>Personal</td>
+                                        <td><span class="badge badge-success">Low</span></td>
+                                        <td><span class="badge badge-info">Pending</span></td>
+                                        <td class="text-right"><button class="btn btn-sm btn-primary btn-round">View</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Update website layout</td><td>Work</td>
+                                        <td><span class="badge badge-warning">Medium</span></td>
+                                        <td><span class="badge badge-success">Completed</span></td>
+                                        <td class="text-right"><button class="btn btn-sm btn-primary btn-round">View</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+        var sidebar = document.getElementById('sidebar-container');
+        var mainContent = document.getElementById('main-container');
+        
+        if (sidebar.classList.contains('d-none')) {
+            sidebar.classList.remove('d-none');
+            sidebar.classList.add('col-md-3');
+            mainContent.classList.remove('col-md-12');
+            mainContent.classList.add('col-md-9');
+        } else {
+            sidebar.classList.add('d-none');
+            sidebar.classList.remove('col-md-3');
+            mainContent.classList.remove('col-md-9');
+            mainContent.classList.add('col-md-12');
+        }
+    });
+</script>
+{% endblock %}
