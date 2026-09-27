@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-79%w%8%srvxga$6)pjkf$+r(+_+76c1xhbhbv1-^0%mxevv)5(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ArielJohn.pythonanywhere.com']
 
 
 # Application definition
@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'tasks',
     "widget_tweaks",
-    'pwa', 
+    'pwa',
 ]
 
 SITE_ID = 1  # <-- Make sure this matches the ID of your updated site!
@@ -65,7 +65,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',  # <-- ADD THIS HERE
-    
+
 ]
 
 ROOT_URLCONF = 'hangarinproj.urls'
@@ -145,8 +145,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'tasks' / 'static',   # so {% static 'css/...' %} works
+    os.path.join(BASE_DIR / 'tasks' / 'static',)   # so {% static 'css/...' %} works
 ]
 
 
@@ -187,7 +188,7 @@ PWA_APP_ICONS = [
         'src': '/static/img/hangarin_icon-192x192.png',
         'sizes': '192x192',
         'type': 'image/png',
-        'form_factor': 'narrow', 
+        'form_factor': 'narrow',
     },
     {
         'src': '/static/img/hangarin_icon-512x512.png',
