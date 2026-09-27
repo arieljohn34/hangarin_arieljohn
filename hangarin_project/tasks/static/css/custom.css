@@ -1,45 +1,99 @@
- /* =========================================================
-    * Profile Images
-    * ========================================================= */
+/* =========================================================
+ * Social Login Confirmation Page (Google/GitHub)
+ * ========================================================= */
+.social-confirm-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    margin: -1.5rem -15px;
+    background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 50%, #ADD8E6 100%);
+    background-color: #87CEEB;
+}
 
-    /* Top right navbar profile picture */
-    .profile-nav-img {
-        width: 40px;
-        height: 40px;
-        object-fit: cover;
-        border: 2px solid #fff;
+.social-confirm-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.social-confirm-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a2b47;
+    margin-bottom: 0.5rem;
+}
+
+.social-confirm-provider i {
+    font-size: 56px;
+    margin: 15px 0;
+}
+
+.social-confirm-provider i.fa-google {
+    color: #DB4437;
+}
+
+.social-confirm-provider i.fa-github {
+    color: #24292e;
+}
+
+@media screen and (max-width: 576px) {
+    .social-confirm-card {
+        padding: 1.75rem 1.25rem;
+        border-radius: 12px;
     }
-
-    /* Large profile picture on the profile page */
-    .profile-main-img {
-        width: 75px;
-        height: 75px;
-        object-fit: cover;
-        border: 3px solid #1D62F0;
+    .social-confirm-title {
+        font-size: 22px;
     }
+    .social-confirm-provider i {
+        font-size: 44px;
+    }
+}
 
 
+
+/* =========================================================
+ * Profile Images
+ * ========================================================= */
+.profile-nav-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.profile-main-img {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border: 3px solid #1D62F0;
+}
 
 /* =========================================================
  * Table Action Buttons (Spread horizontally)
  * ========================================================= */
 .action-buttons {
     display: flex !important;
-    flex-direction: row !important;      /* Force side-by-side on desktop */
-    flex-wrap: nowrap !important;         /* Never wrap to a new line */
-    gap: 0.25in !important;               /* 0.25 inch space between buttons */
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 0.25in !important;
     justify-content: center;
     align-items: center;
 }
 
 .action-buttons .btn {
-    flex: 0 0 auto !important;            /* Don't stretch or shrink */
-    white-space: nowrap !important;       /* Keep text on one line */
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
     margin: 0 !important;
     text-align: center;
 }
 
-/* Give the Actions column enough room so buttons don't get squeezed */
 .table td:last-child,
 .table th:last-child {
     min-width: 170px;
@@ -48,7 +102,6 @@
 /* =========================================================
  * Global Styles - Emoji Sidebar
  * ========================================================= */
-
 .modules-sidebar {
     display: flex !important;
     flex-direction: column !important;
@@ -58,19 +111,17 @@
 .module-link {
     display: flex !important;
     align-items: center;
-    background: #f8f9fa !important; 
+    background: #f8f9fa !important;
     border-radius: 50px !important;
     padding: 15px 25px !important;
-    text-decoration: none !important; 
-    color: #333333 !important; 
+    text-decoration: none !important;
+    color: #333333 !important;
     font-weight: 600;
     font-size: 16px;
     border: 1px solid #eee;
     width: 100%;
     box-sizing: border-box;
-    
-    /* CHANGED TO 0.5 INCHES */
-    margin-bottom: 0.5in !important; 
+    margin-bottom: 0.5in !important;
 }
 
 .module-link:last-child {
@@ -79,14 +130,161 @@
 
 .module-icon {
     margin-right: 15px;
-    font-size: 20px; 
+    font-size: 20px;
     line-height: 1;
+}
+
+/* =========================================================
+ * LOGIN PAGE DESIGN (Sky Blue Background)
+ * ========================================================= */
+
+/* Full-page sky blue background wrapper */
+.login-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 15px;
+    margin: -1.5rem -15px;               /* Pull out of Bootstrap container */
+    background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 50%, #ADD8E6 100%);
+    /* Fallback solid sky blue if gradient unsupported */
+    background-color: #87CEEB;
+}
+
+/* The white card */
+.login-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Title and subtitle */
+.login-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a2b47;
+    margin-bottom: 0.25rem;
+}
+
+/* Social buttons (Google / GitHub) */
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.social-btn i {
+    font-size: 18px;
+}
+
+.btn-google {
+    background: #ffffff;
+    color: #444444;
+}
+
+.btn-google:hover {
+    background: #f5f5f5;
+    color: #222222;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+}
+
+.btn-github {
+    background: #24292e;
+    color: #ffffff;
+    border-color: #24292e;
+}
+
+.btn-github:hover {
+    background: #1a1e22;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+/* Divider with "OR" */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.divider span {
+    padding: 0 12px;
+}
+
+/* Form labels and inputs */
+.login-form label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333 !important;
+    margin-bottom: 6px;
+}
+
+.login-form .form-control {
+    border-radius: 8px;
+    border: 1px solid #d8d8d8;
+    padding: 12px 15px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    background: #f9fbff;
+}
+
+.login-form .form-control:focus {
+    border-color: #87CEEB;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
+}
+
+/* Login button */
+.btn-login {
+    background: linear-gradient(135deg, #4FA8D8 0%, #2C7BB0 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 13px;
+    border-radius: 8px;
+    border: none;
+    letter-spacing: 0.5px;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(44, 123, 176, 0.35);
+}
+
+.btn-login:hover,
+.btn-login:focus {
+    background: linear-gradient(135deg, #3E97C7 0%, #216695 100%);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(44, 123, 176, 0.45);
+    text-decoration: none;
 }
 
 /* =========================================================
  * Responsive Adjustments for Screens <= 960px
  * ========================================================= */
-
 @media screen and (max-width: 960px) {
     /* --- General Layout Adjustments --- */
     .main-panel { width: 100%; }
@@ -111,7 +309,7 @@
     .nav-search { width: 100%; margin-right: 0 !important; margin-top: 10px; margin-bottom: 10px; }
     .dropdown-menu { max-width: 90vw; left: 5vw !important; right: auto !important; }
 
-    /* --- Form & Action Buttons (Stacked with 0.75in spacing) --- */
+    /* --- Form & Action Buttons (Stacked with 0.25in spacing) --- */
     form .btn,
     .page-actions .btn,
     .mobile-stack-btn {
@@ -120,77 +318,66 @@
         margin-bottom: 0.25in !important;
     }
 
-    /* Remove extra space after the last button in forms */
     form .btn:last-child,
     .page-actions .btn:last-child,
     .mobile-stack-btn:last-child {
         margin-bottom: 0 !important;
     }
 
-    /* Add New Task button on task list */
     a.btn-success.mb-3 {
         display: block !important;
         width: 100% !important;
         margin-bottom: 0.25in !important;
     }
 
-         /* --- Table Action Buttons (Mobile tweaks) --- */
+    /* --- Table Action Buttons (Mobile tweaks) --- */
     .action-buttons {
         flex-direction: column !important;
         width: 100%;
-        gap: 0 !important;   /* Reset the 0.25in gap from desktop */
+        gap: 0 !important;
     }
-    
-    /* Force the Edit button to push the Delete button down */
+
     .action-buttons .btn:first-child {
         margin-bottom: 0.25in !important;
     }
-    
+
     .action-buttons .btn {
         width: 100%;
         font-size: 12px;
         padding: 6px 8px;
     }
-    
+}
 
-   /* =========================================================
- * Login Page Responsive Adjustments
+/* =========================================================
+ * LOGIN PAGE Responsive Adjustments for Small Screens
  * ========================================================= */
 @media screen and (max-width: 576px) {
-    /* Reduce outer padding so the card doesn't touch the edges */
     .login-wrapper {
-        min-height: auto;
-        padding: 15px;
-        margin-top: 20px;
-        margin-bottom: 20px;
+        min-height: 100vh;
+        padding: 20px 15px;
+        margin: -1.5rem -15px;
     }
 
-    /* Reduce card padding to give more room for inputs */
     .login-card {
-        padding: 1.5rem !important;
+        padding: 1.75rem 1.25rem !important;
+        border-radius: 12px;
     }
 
-    /* Slightly reduce title size for small screens */
     .login-title {
         font-size: 24px;
     }
 
-    /* Ensure social buttons are easily tappable */
     .social-btn {
         padding: 12px 15px !important;
         font-size: 15px !important;
     }
 
-    /* Ensure the login button is easily tappable */
     .btn-login {
         padding: 14px !important;
         font-size: 16px !important;
     }
-    
-    /* Adjust form control padding slightly for mobile */
+
     .login-form .form-control {
         padding: 14px 15px !important;
     }
-}
-
 }

@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Priority(models.Model):
     name = models.CharField(max_length=50)
@@ -66,3 +69,22 @@ class Note(models.Model):
 
     def __str__(self):
         return f"Note for {self.task.title} - {self.created_at.strftime('%Y-%m-%d')}"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    bio = models.TextField(blank=True, max_length=500, default="")
+
+    class Meta:
+        verbose_name = "Profile"
+        verbose_name_plural = "Profiles"
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+
+
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    """Automatically create a Profile when a new User is created."""
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()

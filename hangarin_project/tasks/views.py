@@ -1,17 +1,25 @@
 # tasks/views.py
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Task, Category, Priority, Note, SubTask
-from django.shortcuts import render
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Task, Category, Priority, Note, SubTask, Profile
 
 
 def dashboard(request):
     return render(request, 'dashboard.html')
 # ---------- Home ----------
+@login_required
 def profile(request):
-    return render(request, 'profile/profile.html')
+    profile_obj, _ = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == "POST":
+        bio = request.POST.get("bio", "").strip()
+        profile_obj.bio = bio
+        profile_obj.save()
+        return redirect("tasks:profile")
+
+    return render(request, "profile/profile.html", {"profile": profile_obj})
 class HomeView(TemplateView):
     template_name = 'home.html'
     def get(self, request, *args, **kwargs):
@@ -134,10 +142,3 @@ class SubTaskDeleteView(DeleteView):
     template_name = 'subtask/subtask_confirm_delete.html'
     success_url = reverse_lazy('tasks:subtask_list')
 
-class CustomLoginView(LoginView):
-    template_name = 'accounts/login/login.html'
-    redirect_authenticated_user = True
-
-class CustomLogoutView(LogoutView):
-    template_name = 'accounts/login/logout/logout.html'
-   

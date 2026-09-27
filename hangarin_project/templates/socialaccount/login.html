@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Confirm Sign In - Hangarin{% endblock %}
+
+{% block content %}
+<div class="social-confirm-wrapper">
+    <div class="social-confirm-card">
+        <div class="text-center mb-4">
+            <h3 class="social-confirm-title">Confirm Sign In</h3>
+            <p class="text-muted mb-0">
+                You are about to sign in with
+                <strong>{{ provider.name }}</strong>
+            </p>
+        </div>
+
+        <div class="social-confirm-provider text-center mb-4">
+            {% if provider.id == 'google' %}
+                <i class="fab fa-google"></i>
+            {% elif provider.id == 'github' %}
+                <i class="fab fa-github"></i>
+            {% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-block mb-3">
+                Continue with {{ provider.name }}
+            </button>
+        </form>
+
+        <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-block">
+            Cancel
+        </a>
+    </div>
+</div>
+{% endblock %}

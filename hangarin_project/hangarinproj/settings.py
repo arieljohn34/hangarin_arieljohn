@@ -166,4 +166,4 @@ LOGIN_REDIRECT_URL = 'tasks:dashboard'
 LOGOUT_REDIRECT_URL = 'account_login'
 
 # The URL where users are redirected if they try to access a page without logging in
-LOGIN_URL = 'tasks:login'
+LOGIN_URL = 'account_login'

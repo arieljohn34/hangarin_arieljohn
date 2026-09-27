@@ -8,30 +8,24 @@ app_name = 'tasks'
 
 urlpatterns = [
     path('', RedirectView.as_view(pattern_name='account_login', permanent=False)),
-    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
-
     path('dashboard/', views.dashboard, name='dashboard'),
     path('home/', views.HomeView.as_view(), name='home'),
     path('profile/', views.profile, name='profile'), 
-    
     # Task CRUD
     path('tasks/', views.TaskListView.as_view(), name='task_list'),
     path('tasks/create/', views.TaskCreateView.as_view(), name='task_create'),
     path('tasks/<int:pk>/update/', views.TaskUpdateView.as_view(), name='task_update'),
     path('tasks/<int:pk>/delete/', views.TaskDeleteView.as_view(), name='task_delete'),
-
     # Category CRUD
     path('categories/', views.CategoryListView.as_view(), name='category_list'),
     path('categories/create/', views.CategoryCreateView.as_view(), name='category_create'),
     path('categories/<int:pk>/update/', views.CategoryUpdateView.as_view(), name='category_update'),
     path('categories/<int:pk>/delete/', views.CategoryDeleteView.as_view(), name='category_delete'),
-
     # Priority CRUD
     path('priorities/', views.PriorityListView.as_view(), name='priority_list'),
     path('priorities/create/', views.PriorityCreateView.as_view(), name='priority_create'),
     path('priorities/<int:pk>/update/', views.PriorityUpdateView.as_view(), name='priority_update'),
     path('priorities/<int:pk>/delete/', views.PriorityDeleteView.as_view(), name='priority_delete'),
-
     # Note CRUD (nested under Task, but we keep simple)
     path('notes/', views.NoteListView.as_view(), name='note_list'),
     path('notes/create/', views.NoteCreateView.as_view(), name='note_create'),
