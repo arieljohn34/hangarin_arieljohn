@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'tasks',
     "widget_tweaks",
+    'pwa', 
 ]
 
 SITE_ID = 1  # <-- Make sure this matches the ID of your updated site!
@@ -167,3 +169,42 @@ LOGOUT_REDIRECT_URL = 'account_login'
 
 # The URL where users are redirected if they try to access a page without logging in
 LOGIN_URL = 'account_login'
+
+# =========================================================
+# Progressive Web App (PWA) Settings
+# =========================================================
+PWA_APP_NAME = 'Hangarin'
+PWA_APP_DESCRIPTION = 'A task management Progressive Web App'
+PWA_APP_THEME_COLOR = '#0A0A0A'
+PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/img/hangarin_icon-192x192.png',
+        'sizes': '192x192',
+        'type': 'image/png',
+        'form_factor': 'narrow', 
+    },
+    {
+        'src': '/static/img/hangarin_icon-512x512.png',
+        'sizes': '512x512',
+        'type': 'image/png',
+        'form_factor': 'wide',
+    },
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/static/img/hangarin_icon-192x192.png',
+        'sizes': '192x192',
+        'type': 'image/png',
+    },
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'tasks', 'static', 'js', 'serviceworker.js')
+
+PWA_APP_ID = '/'
