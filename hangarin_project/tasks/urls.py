@@ -7,10 +7,13 @@ from django.views.generic import RedirectView
 app_name = 'tasks'
 
 urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='account_login', permanent=False)),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
+
     path('dashboard/', views.dashboard, name='dashboard'),
     path('home/', views.HomeView.as_view(), name='home'),
-    path('', RedirectView.as_view(pattern_name='tasks:dashboard', permanent=False)),
-
+    path('profile/', views.profile, name='profile'), 
+    
     # Task CRUD
     path('tasks/', views.TaskListView.as_view(), name='task_list'),
     path('tasks/create/', views.TaskCreateView.as_view(), name='task_create'),

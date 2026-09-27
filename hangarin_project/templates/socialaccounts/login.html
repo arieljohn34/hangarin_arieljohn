@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}Confirm Google Login - Hangarin{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4 class="card-title mb-0">Confirm Sign In</h4>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-3">
+                    You are about to sign in using your 
+                    <strong>{{ provider.name }}</strong> account.
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-block btn-round mb-3">
+                        Continue with {{ provider.name }}
+                    </button>
+                </form>
+
+                <a href="{% url 'account_login' %}" class="btn btn-outline-secondary btn-block btn-round">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

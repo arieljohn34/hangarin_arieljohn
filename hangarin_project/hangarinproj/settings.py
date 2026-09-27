@@ -37,8 +37,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
     'tasks',
     "widget_tweaks",
+]
+
+SITE_ID = 1  # <-- Make sure this matches the ID of your updated site!
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # <-- ADD THIS HERE
+    
 ]
 
 ROOT_URLCONF = 'hangarinproj.urls'
@@ -101,6 +116,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# AllAuth Settings
+ACCOUNT_LOGIN_METHODS = {"username", "email"}
+ACCOUNT_SIGNUP_FIELDS = ["username", "email", "password1", "password2"]
+ACCOUNT_LOGOUT_ON_GET = True
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
@@ -122,6 +147,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'tasks' / 'static',   # so {% static 'css/...' %} works
 ]
 
+
+
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
@@ -130,3 +157,13 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Authentication Redirects
+# Where to go after successful login
+LOGIN_REDIRECT_URL = 'tasks:dashboard'
+
+# Where to go after logging out
+LOGOUT_REDIRECT_URL = 'account_login'
+
+# The URL where users are redirected if they try to access a page without logging in
+LOGIN_URL = 'tasks:login'

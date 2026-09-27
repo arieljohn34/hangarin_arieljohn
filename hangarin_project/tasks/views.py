@@ -3,10 +3,15 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, T
 from django.urls import reverse_lazy
 from .models import Task, Category, Priority, Note, SubTask
 from django.shortcuts import render
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
+
 
 def dashboard(request):
     return render(request, 'dashboard.html')
 # ---------- Home ----------
+def profile(request):
+    return render(request, 'profile/profile.html')
 class HomeView(TemplateView):
     template_name = 'home.html'
     def get(self, request, *args, **kwargs):
@@ -128,3 +133,11 @@ class SubTaskDeleteView(DeleteView):
     model = SubTask
     template_name = 'subtask/subtask_confirm_delete.html'
     success_url = reverse_lazy('tasks:subtask_list')
+
+class CustomLoginView(LoginView):
+    template_name = 'accounts/login/login.html'
+    redirect_authenticated_user = True
+
+class CustomLogoutView(LogoutView):
+    template_name = 'accounts/login/logout/logout.html'
+   

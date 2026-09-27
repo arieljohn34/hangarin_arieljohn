@@ -1,3 +1,25 @@
+ /* =========================================================
+    * Profile Images
+    * ========================================================= */
+
+    /* Top right navbar profile picture */
+    .profile-nav-img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border: 2px solid #fff;
+    }
+
+    /* Large profile picture on the profile page */
+    .profile-main-img {
+        width: 75px;
+        height: 75px;
+        object-fit: cover;
+        border: 3px solid #1D62F0;
+    }
+
+
+
 /* =========================================================
  * Table Action Buttons (Spread horizontally)
  * ========================================================= */
@@ -129,4 +151,46 @@
         font-size: 12px;
         padding: 6px 8px;
     }
+    
+
+   /* =========================================================
+ * Login Page Responsive Adjustments
+ * ========================================================= */
+@media screen and (max-width: 576px) {
+    /* Reduce outer padding so the card doesn't touch the edges */
+    .login-wrapper {
+        min-height: auto;
+        padding: 15px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Reduce card padding to give more room for inputs */
+    .login-card {
+        padding: 1.5rem !important;
+    }
+
+    /* Slightly reduce title size for small screens */
+    .login-title {
+        font-size: 24px;
+    }
+
+    /* Ensure social buttons are easily tappable */
+    .social-btn {
+        padding: 12px 15px !important;
+        font-size: 15px !important;
+    }
+
+    /* Ensure the login button is easily tappable */
+    .btn-login {
+        padding: 14px !important;
+        font-size: 16px !important;
+    }
+    
+    /* Adjust form control padding slightly for mobile */
+    .login-form .form-control {
+        padding: 14px 15px !important;
+    }
+}
+
 }
