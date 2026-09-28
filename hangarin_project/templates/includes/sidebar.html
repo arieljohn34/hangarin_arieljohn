@@ -1,0 +1,30 @@
+{% load static %}
+
+<h4 class="page-title mb-3">Modules</h4>
+
+<div class="modules-sidebar">
+    <a href="{% url 'tasks:dashboard' %}" class="module-link">
+        <span class="module-icon">🏠</span>
+        <span>Dashboard</span>
+    </a>
+    <a href="{% url 'tasks:task_list' %}" class="module-link">
+        <span class="module-icon">📋</span>
+        <span>Tasks</span>
+    </a>
+    <a href="{% url 'tasks:category_list' %}" class="module-link">
+        <span class="module-icon">📂</span>
+        <span>Categories</span>
+    </a>
+    <a href="{% url 'tasks:priority_list' %}" class="module-link">
+        <span class="module-icon">🚩</span>
+        <span>Priorities</span>
+    </a>
+    <a href="{% url 'tasks:note_list' %}" class="module-link">
+        <span class="module-icon">📝</span>
+        <span>Notes</span>
+    </a>
+    <a href="{% url 'tasks:subtask_list' %}" class="module-link">
+        <span class="module-icon">🔄</span>
+        <span>Subtasks</span>
+    </a>
+</div>
