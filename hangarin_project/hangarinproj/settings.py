@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-79%w%8%srvxga$6)pjkf$+r(+_+76c1xhbhbv1-^0%mxevv)5('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['ArielJohn.pythonanywhere.com']
+ALLOWED_HOSTS = ['arieljohn.pythonanywhere.com']
 
 
 # Application definition
@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'tasks',
     "widget_tweaks",
     'pwa',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://arieljohn.pythonanywhere.com',
 ]
 
 SITE_ID = 1  # <-- Make sure this matches the ID of your updated site!

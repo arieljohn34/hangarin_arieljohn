@@ -1,15 +1,19 @@
 // Hangarin Service Worker
-const CACHE_NAME = 'hangarin-cache-v1';
+const CACHE_NAME = 'hangarin-cache-v2';  // ← bumped so old cache is discarded
+
+// ONLY static assets — never HTML pages, never anything with a CSRF token
 const URLS_TO_CACHE = [
-    '/',
-    '/account/login/',
     '/static/css/custom.css',
     '/static/css/ready.css',
     '/static/css/bootstrap.min.css',
+    '/static/js/core/jquery.3.2.1.min.js',
+    '/static/js/core/bootstrap.min.js',
     '/static/img/profile_default.jpg',
+    '/static/img/hangarin_icon-192x192.png',
+    '/static/img/hangarin_icon-512x512.png',
 ];
 
-// Install: cache essential files
+// Install: cache static assets only
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_NAME).then(function (cache) {
@@ -35,20 +39,35 @@ self.addEventListener('activate', function (event) {
     self.clients.claim();
 });
 
-// Fetch: try cache first, then network
+// Fetch: only cache static assets, NEVER HTML navigations
 self.addEventListener('fetch', function (event) {
-    if (event.request.method !== 'GET') return;
+    const req = event.request;
+
+    // 1. Only handle GET requests
+    if (req.method !== 'GET') return;
+
+    // 2. NEVER cache navigation requests (HTML pages) — always hit the network
+    if (req.mode === 'navigate') return;
+
+    // 3. Only cache same-origin static assets
+    const url = new URL(req.url);
+    if (url.origin !== self.location.origin) return;
+    if (!/\.(css|js|png|jpe?g|gif|svg|woff2?|ttf|eot|ico)$/i.test(url.pathname)) return;
 
     event.respondWith(
-        caches.match(event.request).then(function (response) {
-            return response || fetch(event.request).then(function (networkResponse) {
-                return caches.open(CACHE_NAME).then(function (cache) {
-                    cache.put(event.request, networkResponse.clone());
+        caches.match(req).then(function (cached) {
+            if (cached) return cached;
+            return fetch(req).then(function (networkResponse) {
+                // Only cache successful responses
+                if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
                     return networkResponse;
+                }
+                const clone = networkResponse.clone();
+                caches.open(CACHE_NAME).then(function (cache) {
+                    cache.put(req, clone);
                 });
+                return networkResponse;
             });
-        }).catch(function () {
-            // Offline fallback could go here
         })
     );
 });
