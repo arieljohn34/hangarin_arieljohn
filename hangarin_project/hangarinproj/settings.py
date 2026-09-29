@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-79%w%8%srvxga$6)pjkf$+r(+_+76c1xhbhbv1-^0%mxevv)5('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['arieljohn.pythonanywhere.com']
 
 
 # Application definition
@@ -46,7 +46,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'tasks',
     "widget_tweaks",
-    'pwa', 
+    'pwa',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://arieljohn.pythonanywhere.com',
 ]
 
 SITE_ID = 1  # <-- Make sure this matches the ID of your updated site!
@@ -65,7 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',  # <-- ADD THIS HERE
-    
+
 ]
 
 ROOT_URLCONF = 'hangarinproj.urls'
@@ -81,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'tasks.context_processors.sidebar_counts',
             ],
         },
     },
@@ -145,8 +150,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'tasks' / 'static',   # so {% static 'css/...' %} works
+    os.path.join(BASE_DIR / 'tasks' / 'static',)   # so {% static 'css/...' %} works
 ]
 
 
@@ -187,7 +193,7 @@ PWA_APP_ICONS = [
         'src': '/static/img/hangarin_icon-192x192.png',
         'sizes': '192x192',
         'type': 'image/png',
-        'form_factor': 'narrow', 
+        'form_factor': 'narrow',
     },
     {
         'src': '/static/img/hangarin_icon-512x512.png',

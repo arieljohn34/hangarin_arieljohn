@@ -1,65 +1,81 @@
 {% if is_paginated %}
-    <div class="card-footer px-0 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between mt-3">
-        <nav aria-label="Topics pagination" class="mb-4">
-            <ul class="pagination">
-                {% if page_obj.number > 1 %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1">First</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">First</span>
-                    </li>
-                {% endif %}
+<nav aria-label="Page navigation" class="pagination-wrapper mt-4">
+    <ul class="pagination justify-content-center">
 
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Prev</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">Prev</span>
-                    </li>
-                {% endif %}
+        <!-- First (hidden on mobile via CSS) -->
+        {% if page_obj.has_previous %}
+        <li class="page-item page-nav-text">
+            <a class="page-link" href="?page=1" aria-label="First">
+                <span class="d-none d-sm-inline">&laquo; First</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-double-left"></i></span>
+            </a>
+        </li>
+        <li class="page-item page-nav-text">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <span class="d-none d-sm-inline">&lsaquo; Prev</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-left"></i></span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled page-nav-text">
+            <span class="page-link">
+                <span class="d-none d-sm-inline">&laquo; First</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-double-left"></i></span>
+            </span>
+        </li>
+        <li class="page-item disabled page-nav-text">
+            <span class="page-link">
+                <span class="d-none d-sm-inline">&lsaquo; Prev</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-left"></i></span>
+            </span>
+        </li>
+        {% endif %}
 
-                {% for page_num in paginator.page_range %}
-                    {% if page_obj.number == page_num %}
-                        <li class="page-item active">
-                            <span class="page-link">
-                                {{ page_num }}
-                                <span class="sr-only">(current)</span>
-                            </span>
-                        </li>
-                    {% elif page_num > page_obj.number|add:'-3' and page_num < page_obj.number|add:'3' %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
+        <!-- Page numbers: sliding window of ±2 around current -->
+        {% for page_num in paginator.page_range %}
+            {% if page_num == page_obj.number %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ page_num }}</span>
+                </li>
+            {% elif page_num > page_obj.number|add:"-3" and page_num < page_obj.number|add:"3" %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">Next</span>
-                    </li>
-                {% endif %}
+        <!-- Next / Last -->
+        {% if page_obj.has_next %}
+        <li class="page-item page-nav-text">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <span class="d-none d-sm-inline">Next &rsaquo;</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-right"></i></span>
+            </a>
+        </li>
+        <li class="page-item page-nav-text">
+            <a class="page-link" href="?page={{ paginator.num_pages }}" aria-label="Last">
+                <span class="d-none d-sm-inline">Last &raquo;</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-double-right"></i></span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled page-nav-text">
+            <span class="page-link">
+                <span class="d-none d-sm-inline">Next &rsaquo;</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-right"></i></span>
+            </span>
+        </li>
+        <li class="page-item disabled page-nav-text">
+            <span class="page-link">
+                <span class="d-none d-sm-inline">Last &raquo;</span>
+                <span class="d-inline d-sm-none"><i class="fas fa-angle-double-right"></i></span>
+            </span>
+        </li>
+        {% endif %}
+    </ul>
 
-                {% if page_obj.number != paginator.num_pages %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ paginator.num_pages }}">Last</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                        <span class="page-link">Last</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-        <div class="fw-normal small mt-4 mt-lg-0">
-            Showing <b>{{ object_list.count }}</b> out of <b>{{ paginator.count }}</b> entries
-        </div>
-    </div>
+    <p class="pagination-summary text-center text-muted small mb-0">
+        Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ paginator.count }} entries
+    </p>
+</nav>
 {% endif %}
