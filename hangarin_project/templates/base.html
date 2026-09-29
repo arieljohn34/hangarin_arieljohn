@@ -7,9 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hangarin{% endblock %}</title>
 
+    <!-- Favicon / browser tab icon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'img/hangarin_icon.ico' %}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'img/hangarin_icon-96x96.png' %}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'img/hangarin_icon-192x192.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/hangarin-touch-icon.png' %}">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=9">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}?v=11">
 
     {% block extra_head %}{% endblock %}
 </head>

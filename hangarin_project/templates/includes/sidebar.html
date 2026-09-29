@@ -7,24 +7,34 @@
         <span class="module-icon">🏠</span>
         <span>Dashboard</span>
     </a>
+
     <a href="{% url 'tasks:task_list' %}" class="module-link">
         <span class="module-icon">📋</span>
         <span>Tasks</span>
+        <span class="module-count">({{ count_tasks }})</span>
     </a>
+
     <a href="{% url 'tasks:category_list' %}" class="module-link">
         <span class="module-icon">📂</span>
         <span>Categories</span>
+        <span class="module-count">({{ count_categories }})</span>
     </a>
+
     <a href="{% url 'tasks:priority_list' %}" class="module-link">
         <span class="module-icon">🚩</span>
         <span>Priorities</span>
+        <span class="module-count">({{ count_priorities }})</span>
     </a>
+
     <a href="{% url 'tasks:note_list' %}" class="module-link">
         <span class="module-icon">📝</span>
         <span>Notes</span>
+        <span class="module-count">({{ count_notes }})</span>
     </a>
+
     <a href="{% url 'tasks:subtask_list' %}" class="module-link">
         <span class="module-icon">🔄</span>
         <span>Subtasks</span>
+        <span class="module-count">({{ count_subtasks }})</span>
     </a>
 </div>
