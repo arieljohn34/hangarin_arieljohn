@@ -149,7 +149,20 @@ class TaskListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         Task.update_overdue(self.request.user)
-        return Task.objects.filter(owner=self.request.user).order_by('-id')
+        queryset = Task.objects.filter(owner=self.request.user).order_by('-id')
+
+        # Apply status filter
+        status_filter = self.request.GET.get('status')
+        if status_filter and status_filter != 'All':
+            queryset = queryset.filter(status=status_filter)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the current status to the template to highlight the active button
+        context['current_status'] = self.request.GET.get('status', 'All')
+        return context
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -385,7 +398,19 @@ class SubTaskListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return SubTask.objects.filter(parent_task__owner=self.request.user).order_by('-id')
+        queryset = SubTask.objects.filter(parent_task__owner=self.request.user).order_by('-id')
+
+        # Apply status filter
+        status_filter = self.request.GET.get('status')
+        if status_filter and status_filter != 'All':
+            queryset = queryset.filter(status=status_filter)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['current_status'] = self.request.GET.get('status', 'All')
+        return context
 
 
 class SubTaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
