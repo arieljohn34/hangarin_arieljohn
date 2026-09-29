@@ -407,3 +407,78 @@
     color: #999999;
     font-weight: 500;
 }
+
+/* =========================================================
+ * Pagination (responsive)
+ * ========================================================= */
+.pagination-wrapper .pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.pagination-wrapper .page-link {
+    color: #1D62F0;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px !important;
+    padding: 6px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 38px;
+    text-align: center;
+}
+
+.pagination-wrapper .page-link:hover {
+    background: #f0f6ff;
+    color: #164ec2;
+    border-color: #1D62F0;
+}
+
+.pagination-wrapper .page-item.active .page-link {
+    background: #1D62F0;
+    border-color: #1D62F0;
+    color: #fff;
+}
+
+.pagination-wrapper .page-item.disabled .page-link {
+    background: #f8f9fa;
+    color: #b0b0b0;
+    border-color: #e8e8e8;
+}
+
+.pagination-summary {
+    margin-top: 4px;
+}
+
+/* Small screens: shrink buttons so 1 2 3 still fit */
+@media screen and (max-width: 576px) {
+    .pagination-wrapper .pagination {
+        gap: 2px;
+    }
+
+    .pagination-wrapper .page-link {
+        padding: 5px 8px;
+        font-size: 13px;
+        min-width: 32px;
+    }
+
+    /* Arrows compact */
+    .pagination-wrapper .page-item.page-nav-text .page-link {
+        padding: 5px 9px;
+    }
+
+    .pagination-summary {
+        font-size: 11px;
+    }
+}
+
+/* Extra-small screens: allow horizontal scroll if even more buttons appear */
+@media screen and (max-width: 360px) {
+    .pagination-wrapper .pagination {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+}
