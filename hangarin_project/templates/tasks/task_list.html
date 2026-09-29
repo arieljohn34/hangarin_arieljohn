@@ -28,9 +28,19 @@
                 <td>{{ task.title }}</td>
                 <td>{{ task.description|truncatechars:30 }}</td>
                 <td>{{ task.deadline }}</td>
-                <td>{{ task.status }}</td>
-                <td>{{ task.category.name }}</td>
-                <td>{{ task.priority.name }}</td>
+                <td>
+                    {% if task.status == 'Overdue' %}
+                        <span class="badge badge-danger">Overdue</span>
+                    {% elif task.status == 'Completed' %}
+                        <span class="badge badge-success">Completed</span>
+                    {% elif task.status == 'In Progress' %}
+                        <span class="badge badge-info">In Progress</span>
+                    {% else %}
+                        <span class="badge badge-warning">Pending</span>
+                    {% endif %}
+                </td>
+                <td>{{ task.category.name|default:"—" }}</td>
+                <td>{{ task.priority.name|default:"—" }}</td>
                 <td>
                     <div class="action-buttons">
                         <a href="{% url 'tasks:task_update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>

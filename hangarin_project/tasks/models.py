@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import timedelta
 
 
 class Priority(models.Model):
@@ -34,6 +35,7 @@ class Task(models.Model):
         ("Pending", "Pending"),
         ("In Progress", "In Progress"),
         ("Completed", "Completed"),
+        ("Overdue", "Overdue"),
     ]
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tasks", null=True, blank=True)
     title = models.CharField(max_length=200)
@@ -49,6 +51,17 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+    @classmethod
+    def update_overdue(cls, user):
+        """
+        Updates the status of tasks to 'Overdue' if their deadline has passed.
+        """
+        cls.objects.filter(
+            owner=user,                            # <-- FIXED: Changed 'user' to 'owner'
+            status__in=['Pending', 'In Progress'], # Only update tasks that aren't completed
+            deadline__lt=timezone.now()            # Deadline is in the past
+        ).update(status='Overdue')
 
 
 class SubTask(models.Model):
@@ -89,6 +102,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s profile"
+
 
 # =========================================================
 # Defaults for new users
@@ -148,6 +162,13 @@ DEFAULT_SUBTASKS = [
     (14, 'Compare with last quarter',  'Pending'),
 ]
 
+# Overdue defaults: (title, category, priority, days_ago)
+DEFAULT_OVERDUE = [
+    ('Submit late report',         'Work',     'High',   3),
+    ('Pay overdue subscription',   'Finance',  'High',   5),
+    ('Reply to advisor email',     'School',   'Medium', 2),
+    ('Renew expired license',      'Personal', 'High',   7),
+]
 
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
@@ -166,7 +187,7 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
             prio, _ = Priority.objects.get_or_create(owner=instance, name=name)
             prios[name] = prio
 
-        # 3. Tasks
+        # 3. Regular tasks
         tasks = []
         for title, cat_name, prio_name, status in DEFAULT_TASKS:
             task = Task.objects.create(
@@ -178,12 +199,23 @@ def create_or_update_user_profile(sender, instance, created, **kwargs):
             )
             tasks.append(task)
 
-        # 4. Notes (linked to specific tasks)
+        # 3b. Overdue defaults
+        for title, cat_name, prio_name, days_ago in DEFAULT_OVERDUE:
+            Task.objects.create(
+                owner=instance,
+                title=title,
+                status='Overdue',
+                deadline=timezone.now() - timedelta(days=days_ago),
+                category=cats.get(cat_name),
+                priority=prios.get(prio_name),
+            )
+
+        # 4. Notes
         for idx, content in DEFAULT_NOTES:
             if idx < len(tasks):
                 Note.objects.create(task=tasks[idx], content=content)
 
-        # 5. Subtasks (linked to specific parent tasks)
+        # 5. Subtasks
         for idx, title, status in DEFAULT_SUBTASKS:
             if idx < len(tasks):
                 SubTask.objects.create(

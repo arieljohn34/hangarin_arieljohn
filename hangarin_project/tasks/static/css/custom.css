@@ -57,7 +57,6 @@
 }
 
 
-
 /* =========================================================
  * Profile Images
  * ========================================================= */
@@ -74,6 +73,7 @@
     object-fit: cover;
     border: 3px solid #1D62F0;
 }
+
 
 /* =========================================================
  * Table Action Buttons (Spread horizontally)
@@ -98,6 +98,7 @@
 .table th:last-child {
     min-width: 170px;
 }
+
 
 /* =========================================================
  * Global Styles - Emoji Sidebar
@@ -134,24 +135,44 @@
     line-height: 1;
 }
 
-/* =========================================================
- * LOGIN PAGE DESIGN (Sky Blue Background)
- * ========================================================= */
+/* Sidebar count badges */
+.module-link {
+    justify-content: flex-start;
+}
 
-/* Full-page sky blue background wrapper */
+.module-link > span:nth-child(2) {
+    flex: 1;
+    text-align: left;
+}
+
+.module-count {
+    color: #1D62F0;
+    font-size: 15px;
+    font-weight: 700;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.module-count.is-zero {
+    color: #999999;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+ * LOGIN PAGE (Sky Blue Background)
+ * ========================================================= */
 .login-wrapper {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 15px;
-    margin: -1.5rem -15px;               /* Pull out of Bootstrap container */
+    margin: -1.5rem -15px;
     background: linear-gradient(135deg, #87CEEB 0%, #B0E0E6 50%, #ADD8E6 100%);
-    /* Fallback solid sky blue if gradient unsupported */
     background-color: #87CEEB;
 }
 
-/* The white card */
 .login-card {
     background: #ffffff;
     border-radius: 16px;
@@ -162,7 +183,6 @@
     border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* Title and subtitle */
 .login-title {
     font-size: 28px;
     font-weight: 700;
@@ -170,7 +190,6 @@
     margin-bottom: 0.25rem;
 }
 
-/* Social buttons (Google / GitHub) */
 .social-btn {
     display: flex;
     align-items: center;
@@ -213,7 +232,6 @@
     text-decoration: none;
 }
 
-/* Divider with "OR" */
 .divider {
     display: flex;
     align-items: center;
@@ -236,7 +254,6 @@
     padding: 0 12px;
 }
 
-/* Form labels and inputs */
 .login-form label {
     font-weight: 600;
     font-size: 14px;
@@ -259,7 +276,6 @@
     box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.25);
 }
 
-/* Login button */
 .btn-login {
     background: linear-gradient(135deg, #4FA8D8 0%, #2C7BB0 100%);
     color: #ffffff;
@@ -282,34 +298,57 @@
     text-decoration: none;
 }
 
+
 /* =========================================================
- * Responsive Adjustments for Screens <= 960px
+ * RESPONSIVE
  * ========================================================= */
+
+/* ---------- Tablet & small laptops: ≤ 960px ---------- */
 @media screen and (max-width: 960px) {
-    /* --- General Layout Adjustments --- */
+
+    /* Layout */
     .main-panel { width: 100%; }
     .main-panel .content { padding: 20px 10px; margin-top: 55px; }
     .row-card-no-pd [class*=col-] .card:after { width: 0px !important; }
     .card { margin-bottom: 20px; }
     .card .card-body { padding: 15px 10px; }
     .card-stats .icon-big { font-size: 2.5em; min-height: 50px; }
+
+    /* Forms */
     .field.item.form-group { padding: 10px 0; }
     .form-group { margin-bottom: 15px; padding: 0 5px; }
-    .form-control, select.form-control { font-size: 16px; height: auto; padding: 10px 12px; }
-    .update-pro button, .form-group button[type="submit"], .btn-block-mobile { width: 100%; margin-top: 10px; padding: 12px; }
-    .table-responsive { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 0; }
-    .table td, .table th { white-space: nowrap; font-size: 13px; padding: 0.5rem !important; }
-    .table .btn-sm, .table .btn-xs { padding: 5px 8px; font-size: 11px; margin-bottom: 2px; display: inline-block; }
+    .form-control,
+    select.form-control { font-size: 16px; height: auto; padding: 10px 12px; }
+    .update-pro button,
+    .form-group button[type="submit"],
+    .btn-block-mobile { width: 100%; margin-top: 10px; padding: 12px; }
+
+    /* Tables */
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 0;
+    }
+    .table td,
+    .table th { white-space: nowrap; font-size: 13px; padding: 0.5rem !important; }
+    .table .btn-sm,
+    .table .btn-xs { padding: 5px 8px; font-size: 11px; margin-bottom: 2px; display: inline-block; }
+
+    /* Pagination */
     .card-footer.px-0 { flex-direction: column !important; align-items: center !important; }
     .pagination { flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
     .pagination .page-item { margin-bottom: 5px; }
     .pagination .page-link { padding: 6px 12px; font-size: 13px; }
     .fw-normal.small { margin-top: 10px !important; text-align: center; width: 100%; display: block; }
+
+    /* Navbar */
     .navbar-header { background: #ffffff; border-bottom: 1px solid #eee; }
     .nav-search { width: 100%; margin-right: 0 !important; margin-top: 10px; margin-bottom: 10px; }
     .dropdown-menu { max-width: 90vw; left: 5vw !important; right: auto !important; }
 
-    /* --- Form & Action Buttons (Stacked with 0.25in spacing) --- */
+    /* Stack buttons vertically with 0.25in spacing */
     form .btn,
     .page-actions .btn,
     .mobile-stack-btn {
@@ -317,12 +356,9 @@
         width: 100% !important;
         margin-bottom: 0.25in !important;
     }
-
     form .btn:last-child,
     .page-actions .btn:last-child,
-    .mobile-stack-btn:last-child {
-        margin-bottom: 0 !important;
-    }
+    .mobile-stack-btn:last-child { margin-bottom: 0 !important; }
 
     a.btn-success.mb-3 {
         display: block !important;
@@ -330,86 +366,57 @@
         margin-bottom: 0.25in !important;
     }
 
-    /* --- Table Action Buttons (Mobile tweaks) --- */
+    /* Table action buttons stack */
     .action-buttons {
         flex-direction: column !important;
         width: 100%;
         gap: 0 !important;
     }
-
-    .action-buttons .btn:first-child {
-        margin-bottom: 0.25in !important;
-    }
-
+    .action-buttons .btn:first-child { margin-bottom: 0.25in !important; }
     .action-buttons .btn {
         width: 100%;
         font-size: 12px;
         padding: 6px 8px;
     }
+
+    /* Sidebar on smaller screens — full width above content */
+    #sidebar-container { margin-bottom: 1rem; }
+    #sidebar-container.d-none + #main-container { margin-top: 0; }
 }
 
-/* =========================================================
- * LOGIN PAGE Responsive Adjustments for Small Screens
- * ========================================================= */
+/* ---------- Phones: ≤ 576px ---------- */
 @media screen and (max-width: 576px) {
+    /* Social login confirm card */
+    .social-confirm-card { padding: 1.75rem 1.25rem; border-radius: 12px; }
+    .social-confirm-title { font-size: 22px; }
+    .social-confirm-provider i { font-size: 44px; }
+
+    /* Login page */
     .login-wrapper {
         min-height: 100vh;
         padding: 20px 15px;
         margin: -1.5rem -15px;
     }
+    .login-card { padding: 1.75rem 1.25rem !important; border-radius: 12px; }
+    .login-title { font-size: 24px; }
+    .social-btn { padding: 12px 15px !important; font-size: 15px !important; }
+    .btn-login { padding: 14px !important; font-size: 16px !important; }
+    .login-form .form-control { padding: 14px 15px !important; }
 
-    .login-card {
-        padding: 1.75rem 1.25rem !important;
-        border-radius: 12px;
+    /* Pagination compact */
+    .pagination-wrapper .pagination { gap: 2px; }
+    .pagination-wrapper .page-link {
+        padding: 5px 8px;
+        font-size: 13px;
+        min-width: 32px;
     }
-
-    .login-title {
-        font-size: 24px;
-    }
-
-    .social-btn {
-        padding: 12px 15px !important;
-        font-size: 15px !important;
-    }
-
-    .btn-login {
-        padding: 14px !important;
-        font-size: 16px !important;
-    }
-
-    .login-form .form-control {
-        padding: 14px 15px !important;
-    }
+    .pagination-wrapper .page-item.page-nav-text .page-link { padding: 5px 9px; }
+    .pagination-summary { font-size: 11px; }
 }
 
 
 /* =========================================================
- * Sidebar count badges
- * ========================================================= */
-.module-link {
-    justify-content: flex-start;   /* keep icon/text left, badge right */
-}
-
-.module-link > span:nth-child(2) {
-    flex: 1;                        /* text label takes remaining space */
-    text-align: left;
-}
-
-.module-count {
-    color: #1D62F0;
-    font-size: 15px;
-    font-weight: 700;
-    margin-left: 8px;
-    flex-shrink: 0;
-}
-
-.module-count.is-zero {
-    color: #999999;
-    font-weight: 500;
-}
-
-/* =========================================================
- * Pagination (responsive)
+ * Pagination (base styles)
  * ========================================================= */
 .pagination-wrapper .pagination {
     flex-wrap: wrap;
@@ -450,28 +457,6 @@
     margin-top: 4px;
 }
 
-/* Small screens: shrink buttons so 1 2 3 still fit */
-@media screen and (max-width: 576px) {
-    .pagination-wrapper .pagination {
-        gap: 2px;
-    }
-
-    .pagination-wrapper .page-link {
-        padding: 5px 8px;
-        font-size: 13px;
-        min-width: 32px;
-    }
-
-    /* Arrows compact */
-    .pagination-wrapper .page-item.page-nav-text .page-link {
-        padding: 5px 9px;
-    }
-
-    .pagination-summary {
-        font-size: 11px;
-    }
-}
-
 /* Extra-small screens: allow horizontal scroll if even more buttons appear */
 @media screen and (max-width: 360px) {
     .pagination-wrapper .pagination {
@@ -480,5 +465,28 @@
         justify-content: flex-start;
         padding-bottom: 4px;
         -webkit-overflow-scrolling: touch;
+    }
+}
+
+
+/* =========================================================
+ * Search results list (dashboard)
+ * ========================================================= */
+.search-list li {
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.search-list li:last-child {
+    border-bottom: 0;
+}
+
+.search-list a {
+    font-weight: 500;
+}
+
+@media (max-width: 576px) {
+    .search-list li {
+        font-size: 14px;
     }
 }

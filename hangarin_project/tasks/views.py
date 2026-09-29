@@ -1,4 +1,6 @@
 # tasks/views.py
+import re
+
 from django.views.generic import (
     ListView, CreateView, UpdateView, DeleteView, TemplateView
 )
@@ -16,20 +18,100 @@ from .models import Task, Category, Priority, Note, SubTask, Profile
 
 
 # =========================================================
-# Dashboard  (per-user)
+# Hash-based search (inverted index)
+# =========================================================
+def _tokenize(text):
+    """Split text into lowercase alphanumeric tokens."""
+    return re.findall(r'\w+', (text or '').lower())
+
+
+def build_search_index(user):
+    """
+    Build a hash table (dict) mapping token -> list of objects, per model.
+    This is an inverted index: lookup is O(1) per token.
+    """
+    index = {
+        'task':     {},
+        'category': {},
+        'priority': {},
+        'note':     {},
+        'subtask':  {},
+    }
+
+    for task in Task.objects.filter(owner=user).only('id', 'title'):
+        for tok in set(_tokenize(task.title)):
+            index['task'].setdefault(tok, []).append(task)
+
+    for cat in Category.objects.filter(owner=user).only('id', 'name'):
+        for tok in set(_tokenize(cat.name)):
+            index['category'].setdefault(tok, []).append(cat)
+
+    for prio in Priority.objects.filter(owner=user).only('id', 'name'):
+        for tok in set(_tokenize(prio.name)):
+            index['priority'].setdefault(tok, []).append(prio)
+
+    for note in Note.objects.filter(task__owner=user).select_related('task'):
+        for tok in set(_tokenize(note.task.title)):
+            index['note'].setdefault(tok, []).append(note)
+
+    for sub in SubTask.objects.filter(parent_task__owner=user).select_related('parent_task'):
+        for tok in set(_tokenize(sub.parent_task.title)):
+            index['subtask'].setdefault(tok, []).append(sub)
+
+    return index
+
+
+def search_index(index, query):
+    """
+    Look up query tokens in the inverted index.
+    Returns items matching ANY of the query tokens (union).
+    """
+    tokens = _tokenize(query)
+    if not tokens:
+        return {k: [] for k in index}
+
+    results = {}
+    for kind, table in index.items():
+        seen_pks = set()
+        matches = []
+        for tok in tokens:
+            for obj in table.get(tok, []):
+                if obj.pk not in seen_pks:
+                    seen_pks.add(obj.pk)
+                    matches.append(obj)
+        results[kind] = matches
+    return results
+
+
+# =========================================================
+# Dashboard  (per-user) + hash search
 # =========================================================
 @login_required
 @never_cache
 def dashboard(request):
+    Task.update_overdue(request.user)
+
     tasks = Task.objects.filter(owner=request.user)
     today = timezone.now().date()
     context = {
-        'total_tasks': tasks.count(),
-        'completed': tasks.filter(status='Completed').count(),
-        'pending':   tasks.filter(status='Pending').count(),
-        'overdue':   tasks.filter(deadline__lt=today).exclude(status='Completed').count(),
+        'total_tasks':  tasks.count(),
+        'completed':    tasks.filter(status='Completed').count(),
+        'pending':      tasks.filter(status='Pending').count(),
+        'overdue':      tasks.filter(status='Overdue').count(),
         'recent_tasks': tasks.order_by('-id')[:5],
     }
+
+    # ---------- Search ----------
+    query = request.GET.get('q', '').strip()
+    if query:
+        index = build_search_index(request.user)
+        results = search_index(index, query)
+        context.update({
+            'query': query,
+            'search_results': results,
+            'search_total': sum(len(v) for v in results.values()),
+        })
+
     return render(request, 'dashboard.html', context)
 
 
@@ -66,7 +148,8 @@ class TaskListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-         return Task.objects.filter(owner=self.request.user).order_by('-id')
+        Task.update_overdue(self.request.user)
+        return Task.objects.filter(owner=self.request.user).order_by('-id')
 
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -78,13 +161,16 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        # Only show MY categories and priorities in dropdowns
         form.fields['category'].queryset = Category.objects.filter(owner=self.request.user)
         form.fields['priority'].queryset = Priority.objects.filter(owner=self.request.user)
         return form
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
+        if (form.instance.deadline
+                and form.instance.deadline < timezone.now()
+                and form.instance.status in ('Pending', 'In Progress')):
+            form.instance.status = 'Overdue'
         return super().form_valid(form)
 
 
@@ -103,6 +189,13 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         form.fields['category'].queryset = Category.objects.filter(owner=self.request.user)
         form.fields['priority'].queryset = Priority.objects.filter(owner=self.request.user)
         return form
+
+    def form_valid(self, form):
+        if (form.instance.deadline
+                and form.instance.deadline < timezone.now()
+                and form.instance.status in ('Pending', 'In Progress')):
+            form.instance.status = 'Overdue'
+        return super().form_valid(form)
 
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
@@ -131,7 +224,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Category.objects.filter(owner=self.request.user)
+        return Category.objects.filter(owner=self.request.user).order_by('-id')
 
 
 class CategoryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -183,7 +276,7 @@ class PriorityListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Priority.objects.filter(owner=self.request.user)
+        return Priority.objects.filter(owner=self.request.user).order_by('-id')
 
 
 class PriorityCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -235,7 +328,7 @@ class NoteListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Note.objects.filter(task__owner=self.request.user)
+        return Note.objects.filter(task__owner=self.request.user).order_by('-id')
 
 
 class NoteCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
@@ -292,7 +385,7 @@ class SubTaskListView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return SubTask.objects.filter(parent_task__owner=self.request.user)
+        return SubTask.objects.filter(parent_task__owner=self.request.user).order_by('-id')
 
 
 class SubTaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
